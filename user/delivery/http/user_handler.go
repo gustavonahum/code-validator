@@ -1,14 +1,25 @@
 package http
 
-import "github.com/gustavonahum/code-validator/user"
+import (
+	"net/http"
+
+	"github.com/gorilla/mux"
+
+	"github.com/gustavonahum/code-validator/user"
+)
 
 type UserHandler struct {
 	UUsecase user.Usecase
 }
 
-func NewUserHandler(us user.Usecase) {
+func NewUserHandler(r *mux.Router, u user.Usecase) {
 	handler := &UserHandler{
-		UUsecase: us,
+		UUsecase: u,
 	}
+	s := r.PathPrefix("/user").Subrouter()
+	s.HandleFunc("/{id}", handler.GetById)
+}
 
+func (h UserHandler) GetById(w http.ResponseWriter, r *http.Request) {
+	return
 }
