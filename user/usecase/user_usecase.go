@@ -19,3 +19,7 @@ func NewUserUsecase(u user.Repository) user.Usecase {
 func (u *userUsecase) GetById(id int64) (*models.User, error) {
 	return u.userRepo.GetById(id)
 }
+
+func (u *userUsecase) Store(user *models.User) (*models.User, error) {
+	return u.userRepo.Store(user)
+}

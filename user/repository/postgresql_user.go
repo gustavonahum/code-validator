@@ -18,3 +18,7 @@ func NewPostgresqlUserRepository(Conn *sql.DB) user.Repository {
 func (u *postgresqlUserRepository) GetById(id int64) (*models.User, error) {
 	return &models.User{}, nil
 }
+
+func (u *postgresqlUserRepository) Store(user *models.User) (*models.User, error) {
+	return user, nil
+}
