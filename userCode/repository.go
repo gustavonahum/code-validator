@@ -1,4 +1,4 @@
-package studentCode
+package userCode
 
 type Repository interface {
 }

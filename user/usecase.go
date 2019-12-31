@@ -1,4 +1,4 @@
-package studentCode
+package user
 
 type Usecase interface {
 }
