@@ -17,5 +17,5 @@ func NewUserUsecase(u user.Repository) user.Usecase {
 }
 
 func (u *userUsecase) GetById(id int64) (*models.User, error) {
-	return &models.User{}, nil
+	return u.userRepo.GetById(id)
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -13,6 +14,10 @@ import (
 
 	_userHandler "github.com/gustavonahum/code-validator/user/delivery/http"
 )
+
+func init() {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+}
 
 func main() {
 
