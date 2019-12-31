@@ -22,3 +22,7 @@ func (u *postgresqlUserRepository) GetById(id int64) (*models.User, error) {
 func (u *postgresqlUserRepository) Store(user *models.User) (*models.User, error) {
 	return user, nil
 }
+
+func (u *postgresqlUserRepository) Delete(id int64) (*models.User, error) {
+	return &models.User{}, nil
+}

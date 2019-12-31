@@ -23,8 +23,9 @@ func NewUserHandler(r *mux.Router, u user.Usecase) {
 		uUsecase: u,
 	}
 
-	r.HandleFunc("/user", handler.Store).Methods("POST")
 	r.HandleFunc("/user/{id}", handler.GetById).Methods("GET")
+	r.HandleFunc("/user", handler.Store).Methods("POST")
+	r.HandleFunc("/user/{id}", handler.Delete).Methods("DELETE")
 }
 
 func (h *UserHandler) GetById(w http.ResponseWriter, r *http.Request) {
@@ -41,7 +42,7 @@ func (h *UserHandler) GetById(w http.ResponseWriter, r *http.Request) {
 	userBytesSlice, err := json.Marshal(user)
 	if err != nil {
 		log.Printf("Error converting struct to byte slice: %v", user)
-		http.Error(w, "can't convert struct to byte slice", http.StatusInternalServerError)
+		http.Error(w, "can't convert struct to byte slice", http.StatusUnprocessableEntity)
 		return
 	}
 
@@ -67,4 +68,25 @@ func (h *UserHandler) Store(w http.ResponseWriter, r *http.Request) {
 	}
 
 	h.uUsecase.Store(&user)
+}
+
+func (h *UserHandler) Delete(w http.ResponseWriter, r *http.Request) {
+
+	vars := mux.Vars(r)
+	id, err := strconv.ParseInt(vars["id"], 10, 64)
+	if err != nil {
+		log.Printf("Error reading path variable: %v", err)
+		http.Error(w, "can't convert path variable to int64", http.StatusBadRequest)
+		return
+	}
+
+	user, _ := h.uUsecase.Delete(id)
+	userBytesSlice, err := json.Marshal(user)
+	if err != nil {
+		log.Printf("Error converting struct to byte slice: %v", user)
+		http.Error(w, "can't convert struct to byte slice", http.StatusUnprocessableEntity)
+		return
+	}
+
+	w.Write(userBytesSlice)
 }

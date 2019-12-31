@@ -23,3 +23,7 @@ func (u *userUsecase) GetById(id int64) (*models.User, error) {
 func (u *userUsecase) Store(user *models.User) (*models.User, error) {
 	return u.userRepo.Store(user)
 }
+
+func (u *userUsecase) Delete(id int64) (*models.User, error) {
+	return u.userRepo.Delete(id)
+}

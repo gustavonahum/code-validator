@@ -1,4 +1,4 @@
-package userCode
+package code
 
 type Repository interface {
 }
