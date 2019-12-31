@@ -21,5 +21,5 @@ func NewUserHandler(r *mux.Router, u user.Usecase) {
 }
 
 func (h UserHandler) GetById(w http.ResponseWriter, r *http.Request) {
-	return
+	w.Write([]byte("olar\n"))
 }

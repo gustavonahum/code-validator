@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"net/http"
 
 	"github.com/gorilla/mux"
 	_userRepo "github.com/gustavonahum/code-validator/user/repository"
@@ -25,4 +26,6 @@ func main() {
 
 	r := mux.NewRouter()
 	_userHandler.NewUserHandler(r, userUsecase)
+
+	http.ListenAndServe(":8080", r)
 }
