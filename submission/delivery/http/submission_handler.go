@@ -23,22 +23,29 @@ func NewSubmissionHandler(r *mux.Router, s submission.Usecase) {
 		sUsecase: s,
 	}
 
-	r.HandleFunc("/user/{id}", handler.GetById).Methods("GET")
-	r.HandleFunc("/user", handler.Store).Methods("POST")
-	r.HandleFunc("/user/{id}", handler.Delete).Methods("DELETE")
+	r.HandleFunc("/submission/{id_user}/{id_problem}", handler.GetById).Methods("GET")
+	r.HandleFunc("/submission", handler.Store).Methods("POST")
+	r.HandleFunc("/submission/{id_user}/{id_problem}", handler.Delete).Methods("DELETE")
 }
 
 func (h *SubmissionHandler) GetById(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
-	id, err := strconv.ParseInt(vars["id"], 10, 64)
+	idUser, err := strconv.ParseInt(vars["id_user"], 10, 64)
 	if err != nil {
 		log.Printf("Error reading path variable: %v", err)
 		http.Error(w, "can't convert path variable to int64", http.StatusBadRequest)
 		return
 	}
 
-	submission, _ := h.sUsecase.GetById(id)
+	idProblem, err := strconv.ParseInt(vars["id_problem"], 10, 64)
+	if err != nil {
+		log.Printf("Error reading path variable: %v", err)
+		http.Error(w, "can't convert path variable to int64", http.StatusBadRequest)
+		return
+	}
+
+	submission, _ := h.sUsecase.GetById(idUser, idProblem)
 	submissionBytesSlice, err := json.Marshal(submission)
 	if err != nil {
 		log.Printf("Error converting struct to byte slice: %v", submission)
@@ -73,14 +80,21 @@ func (h *SubmissionHandler) Store(w http.ResponseWriter, r *http.Request) {
 func (h *SubmissionHandler) Delete(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
-	id, err := strconv.ParseInt(vars["id"], 10, 64)
+	idUser, err := strconv.ParseInt(vars["id_user"], 10, 64)
 	if err != nil {
 		log.Printf("Error reading path variable: %v", err)
 		http.Error(w, "can't convert path variable to int64", http.StatusBadRequest)
 		return
 	}
 
-	submission, _ := h.sUsecase.Delete(id)
+	idProblem, err := strconv.ParseInt(vars["id_problem"], 10, 64)
+	if err != nil {
+		log.Printf("Error reading path variable: %v", err)
+		http.Error(w, "can't convert path variable to int64", http.StatusBadRequest)
+		return
+	}
+
+	submission, _ := h.sUsecase.Delete(idUser, idProblem)
 	submissionBytesSlice, err := json.Marshal(submission)
 	if err != nil {
 		log.Printf("Error converting struct to byte slice: %v", submission)

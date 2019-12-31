@@ -15,7 +15,7 @@ func NewPostgresqlSubmissionRepository(Conn *sql.DB) submission.Repository {
 	return &postgresqlSubmissionRepository{Conn}
 }
 
-func (u *postgresqlSubmissionRepository) GetById(id int64) (*models.Submission, error) {
+func (u *postgresqlSubmissionRepository) GetById(idUser int64, idProblem int64) (*models.Submission, error) {
 	return &models.Submission{}, nil
 }
 
@@ -23,6 +23,6 @@ func (u *postgresqlSubmissionRepository) Store(user *models.Submission) (*models
 	return user, nil
 }
 
-func (u *postgresqlSubmissionRepository) Delete(id int64) (*models.Submission, error) {
+func (u *postgresqlSubmissionRepository) Delete(idUser int64, idProblem int64) (*models.Submission, error) {
 	return &models.Submission{}, nil
 }
