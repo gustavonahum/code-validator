@@ -1,2 +1,2 @@
 # code-validator
-Validator for code submitted by students in Computer Science assignments
+Validator for code submitted by users on websites for code challenges
